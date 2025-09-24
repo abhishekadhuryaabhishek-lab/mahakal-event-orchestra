@@ -1,15 +1,396 @@
 <!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Mahakal Event Orchestra</title>
     <meta name="description" content="Singer, Dancer & Event Booking Services — Mahakal Event Orchestra. Book your event and chat on WhatsApp." />
     <style>
-        /* CSS content remains same */
+        :root {
+            --bg: #0b0b0d;
+            --card: #0f1720;
+            --accent: #ff4da6;
+            --accent-2: #3ae0ff;
+            --muted: #aab3bf;
+            --glass: rgba(255, 255, 255, 0.03);
+            --max-width: 1100px;
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            margin: 0;
+            font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+            background: linear-gradient(180deg, #070709 0%, #0e0e12 100%);
+            color: #fff;
+            -webkit-font-smoothing: antialiased
+        }
+
+        a {
+            color: inherit
+        }
+
+        .wrap {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 24px
+        }
+
+        /* Header / Hero */
+        .hero {
+            min-height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 48px 24px;
+            border-radius: 14px;
+            position: relative;
+            overflow: hidden;
+            background: url('banner.jpg.jpeg') center/cover no-repeat; /* Banner image added here */
+            color: #fff;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6); /* Dark overlay for text readability */
+        }
+
+        .hero-grid {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: 1fr 420px;
+            gap: 32px;
+            align-items: center;
+            width: 100%
+        }
+
+        .brand {
+            font-weight: 800;
+            letter-spacing: 0.6px
+        }
+
+        .brand h1 {
+            margin: 0;
+            font-size: clamp(28px, 6vw, 48px);
+        }
+
+        .headline {
+            font-size: clamp(16px, 2.2vw, 20px);
+            color: var(--muted);
+            margin: 10px 0 20px
+        }
+
+        .ctas {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 18px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6)
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, var(--accent), #ff704d);
+            color: #fff
+        }
+
+        .btn-ghost {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            color: var(--muted)
+        }
+
+        /* Visual card */
+        .visual-card {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 12px;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            align-items: center
+        }
+
+        .visual-card img {
+            width: 100%;
+            height: 240px;
+            object-fit: cover;
+            border-radius: 8px
+        }
+
+        .badges {
+            display: flex;
+            gap: 8px
+        }
+
+        .badge {
+            background: var(--glass);
+            padding: 6px 10px;
+            border-radius: 999px;
+            font-size: 13px;
+            color: var(--muted)
+        }
+
+        /* Gallery */
+        .gallery {
+            padding: 30px 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px
+        }
+
+        .gallery img {
+            width: 100%;
+            display: block;
+            height: 160px;
+            object-fit: cover;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform .2s
+        }
+
+        .gallery img:hover {
+            transform: scale(1.03)
+        }
+
+        /* About */
+        .about {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            padding: 30px 0
+        }
+
+        .about .avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 12px;
+            background: linear-gradient(180deg, var(--accent), var(--accent-2));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 22px;
+            color: #040405
+        }
+
+        .about p {
+            margin: 0;
+            color: var(--muted)
+        }
+
+        /* Footer */
+        footer {
+            padding: 24px 0;
+            color: var(--muted);
+            text-align: center
+        }
+
+        /* Floating WhatsApp */
+        .whatsapp {
+            position: fixed;
+            right: 18px;
+            bottom: 18px;
+            z-index: 999
+        }
+
+        .whatsapp a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(90deg, #25d366, #1ebe5b);
+            color: #04210a;
+            padding: 12px 16px;
+            border-radius: 100px;
+            text-decoration: none;
+            font-weight: 700;
+            box-shadow: 0 8px 30px rgba(37, 211, 102, 0.18)
+        }
+
+        .whatsapp a img {
+            width: 22px;
+            height: 22px
+        }
+
+        /* Modal (lightbox) */
+        .modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.85);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            z-index: 1500
+        }
+
+        .modal img {
+            max-width: 95%;
+            max-height: 90%;
+            border-radius: 8px
+        }
+
+        .modal.show {
+            display: flex
+        }
+
+        /* Responsive */
+        @media (max-width:930px) {
+            .hero-grid {
+                grid-template-columns: 1fr
+            }
+
+            .visual-card img {
+                height: 200px
+            }
+        }
+
+        @media (max-width:520px) {
+            .wrap {
+                padding: 16px
+            }
+
+            .visual-card img {
+                height: 160px
+            }
+        }
+
+        /* small touches */
+        .small {
+            font-size: 13px;
+            color: var(--muted)
+        }
+
+        .muted {
+            color: var(--muted)
+        }
     </style>
 </head>
+
 <body>
-    <!-- Body content remains same -->
+    <div class="wrap">
+        <header class="hero" aria-label="Hero: Mahakal Event Orchestra">
+            <div class="hero-grid">
+                <div>
+                    <div class="brand">
+                        <h1 style="font-size:42px;margin:0">Mahakal Event Orchestra</h1>
+                        <div class="headline">Singer, Dancer & Event Booking Services</div>
+                    </div>
+
+                    <div style="max-width:640px">
+                        <p class="muted">We provide professional singers, energetic dancers, lively anchors and full event management for weddings, corporate programmes, private parties and public shows. Click Book Your Event to fill the booking form and our team will contact you soon.</p>
+                        <div class="ctas" style="margin-top:18px">
+                            <a class="btn btn-primary" href="https://docs.google.com/forms/d/e/1FAIpQLScMoD7mXVKYL5lcWPPI5fIOO57HeYd7So8FB24CF1SDp42dHQ/viewform?usp=header" target="_blank" rel="noopener">Book Your Event</a>
+                            <a class="btn btn-ghost" href="https://wa.me/916297623209" target="_blank" rel="noopener">Chat on WhatsApp</a>
+                        </div>
+                        <div style="margin-top:12px; font-weight:bold; color:#3ae0ff;">
+                            Safe for All Ages • Family-Friendly Entertainment
+                        </div>
+                        <div style="margin-top:18px" class="small">Anchor & Booking Manager: <strong>Jiban Mishra</strong></div>
+                    </div>
+                </div>
+
+                <aside class="visual-card" aria-hidden="true">
+                    <img src="show-hero.jpg" alt="Mahakal Event show" onerror="this.style.filter='grayscale(10%)';this.src='https://images.unsplash.com/photo-1506157786151-b8491531f063?auto=format&fit=crop&w=1200&q=60'" />
+                    <div class="badges">
+                        <span class="badge">Live Singing</span>
+                        <span class="badge">Dancers</span>
+                        <span class="badge">Anchor & MC</span>
+                    </div>
+                </aside>
+            </div>
+        </header>
+
+        <!-- Gallery -->
+        <section aria-label="Gallery" style="padding-top:20px">
+            <h2 style="margin:6px 0 12px">Show Moments</h2>
+            <div class="gallery" id="gallery">
+                <img src="show1.jpg" alt="Show moment 1" data-full="show1.jpg" loading="lazy" />
+                <img src="show2.jpg" alt="Show moment 2" data-full="show2.jpg" loading="lazy" />
+                <img src="show3.jpg" alt="Show moment 3" data-full="show3.jpg" loading="lazy" />
+                <img src="show4.jpg" alt="Show moment 4" data-full="show4.jpg" loading="lazy" />
+                <img src="show5.jpg" alt="Show moment 5" data-full="show5.jpg" loading="lazy" />
+                <img src="show6.jpg" alt="Show moment 6" data-full="show6.jpg" loading="lazy" />
+            </div>
+        </section>
+
+        <!-- About -->
+        <section class="about" aria-label="About the manager">
+            <div class="avatar">JM</div>
+            <div>
+                <h3 style="margin:0 0 6px">About Jiban Mishra</h3>
+                <p style="margin:4px 0; color:#3ae0ff; font-weight:bold;">
+                    We strictly perform only family-friendly shows — no vulgar or 18+ performances.
+                </p>
+                <p class="muted">Hi, I'm <strong>Jiban Mishra</strong> — Anchor & part of the event booking management team at Mahakal Event Orchestra. We arrange singers, dancers, anchors, sound & lighting, and coordinate with organizers to make every show memorable.</p>
+                <div style="margin-top:10px" class="small">Phone: <a href="tel:+916297623209">+91 62976 23209</a> • <a href="https://wa.me/916297623209" target="_blank" rel="noopener">Chat on WhatsApp</a></div>
+            </div>
+        </section>
+
+        <footer>
+            <div class="small">© 2025 Mahakal Event Orchestra — All rights reserved.</div>
+        </footer>
+    </div>
+
+    <!-- Floating WhatsApp -->
+    <div class="whatsapp" aria-hidden="true">
+        <a href="https://wa.me/916297623209" target="_blank" rel="noopener">
+            <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512'><path fill='%23fff' d='M380.9 97.1C339-44 220.4 0 220.4 0...'/></svg>" alt="WA" onerror="this.style.display='none'" />
+            Chat on WhatsApp
+        </a>
+    </div>
+
+    <!-- Lightbox modal -->
+    <div class="modal" id="modal" role="dialog" aria-hidden="true">
+        <img id="modal-img" src="" alt="Full size photo" />
+    </div>
+
+    <script>
+        // Simple lightbox for gallery
+        const gallery = document.getElementById('gallery');
+        const modal = document.getElementById('modal');
+        const modalImg = document.getElementById('modal-img');
+        gallery.addEventListener('click', (e) => {
+            const t = e.target;
+            if (t.tagName === 'IMG') {
+                modalImg.src = t.dataset.full || t.src;
+                modal.classList.add('show');
+                modal.setAttribute('aria-hidden', 'false');
+            }
+        });
+        modal.addEventListener('click', () => {
+            modal.classList.remove('show');
+            modal.setAttribute('aria-hidden', 'true');
+            modalImg.src = '';
+        });
+
+        // Accessibility: close modal with ESC
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal.classList.contains('show')) {
+                modal.classList.remove('show');
+                modal.setAttribute('aria-hidden', 'true');
+                modalImg.src = '';
+            }
+        });
+
+        // Replace default placeholder images if none provided
+        document.querySelectorAll('.gallery img').forEach(img => {
+            img.onerror = () => {
+                img.src = 'https://images.unsplash.com/photo-1506157786151-b8491531f063?auto=format&fit=crop&w=800&q=60'
+            }
+        });
+    </script>
 </body>
 </html>
