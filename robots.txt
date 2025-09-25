@@ -1,6 +1,4 @@
-# Allow all search engines to crawl the entire site
 User-agent: *
 Allow: /
 
-# Sitemap location
-Sitemap: https://abhishekadhuryaabhishek-lab.github.io/mahakal-event-orchestra.github.io/sitemap.xml
+Sitemap: https://abhishekadhuryaabhishek-lab.github.io/mahakal-event-orchestra/sitemap.xml
