@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://abhishekadhuryaabhishek-lab.github.io/mahakal-event-orchestra/sitemap.xml
+Sitemap: https://abhishekadhuryaabhishek-lab.github.io/mahakal-event-orchestra.github.io/sitemap.xml
